@@ -40,10 +40,22 @@ def count_quantity_to_rio():
 
     conn.close()
 
-# Se as tasks iniciais derem certo, irá gerar o final output em txt, mostrando que o arquivo foi gerado com sucesso.
-def export_final_output():
-    with open('/mnt/c/Users/carva/OneDrive/Desktop/Programas/airflow_tooltorial/final_output.txt', mode='w') as file: 
-        file.write('Arquivo gerado com sucesso!')
+def export_final_answer():
+    import base64
+
+    # Import count
+    with open('count.txt') as f:
+        count = f.readlines()[0]
+
+    my_email = Variable.get("my_email")
+    message = my_email+count
+    message_bytes = message.encode('ascii')
+    base64_bytes = base64.b64encode(message_bytes)
+    base64_message = base64_bytes.decode('ascii')
+
+    with open("final_output.txt","w") as f:
+        f.write(base64_message)
+    return None
 
 default_args = {
     'start_date': datetime(2012, 1, 1),
@@ -69,7 +81,7 @@ with DAG(dag_id='northwind_airflow',
     # Task final: Exportar o arquivo final
     export_final_output = PythonOperator(
         task_id='export_final_output',
-        python_callable=export_final_output
+        python_callable=export_final_answer
     )
 
     # Definir a ordem de execução das tasks
