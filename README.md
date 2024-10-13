@@ -20,7 +20,7 @@ A pasta deve conter os seguintes arquivos (com excessão da pasta 'dags' que dev
 
 # 3. Criação de dags do desafio
 
-Na pasta 'dags' criada, foi criado o arquivo 'northwind_to_csv.py', que possui as dags para a realização do desafio.
+Na pasta 'dags' criada, foi criado o arquivo 'northwind_to_csv.py' (usando o arquivo examplo_desafio.py como base), que possui as dags para a realização do desafio.
 
 ```python
 with DAG(dag_id='northwind_airflow', 
@@ -94,7 +94,7 @@ def count_quantity_to_rio():
 
 ## 3.3. Criar arquivo 'export_final_output'
 
-```
+```python
 def export_final_answer():
     import base64
 
@@ -111,14 +111,16 @@ def export_final_answer():
     with open("final_output.txt","w") as f:
         f.write(base64_message)
     return None
-
-default_args = {
-    'start_date': datetime(2012, 1, 1),
-}
 ```
 
 # 4. Interface do Airflow
 Interface onde as tasks foram sendo testadas e corrigidas:
 ![image](https://github.com/user-attachments/assets/0bd46ec1-77a9-42d9-bc35-a4f3278d4396)
+
+# 5. Pontos para destacar
+
++ O airflow não funciona de forma direta no windows, portanto, deve ser usado através do linux (pode ser um terminal wsl, com o ubunto instalado) ou usar através do docker com o bash.
++ Como foi utilizado o wsl nesse desafio, todos os caminhos para arquivos devem ser no modelo do linux (/mnt/c/Users/) e não no formato do windows, tive problemas nessa parte.
++ 
 
 
